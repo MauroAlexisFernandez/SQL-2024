@@ -1,0 +1,61 @@
+-- A
+SELECT a.apellido, a.nombre, a.email FROM alumnos a
+INNER JOIN nivel n
+ON a.nivel_id = n.nivel_id
+WHERE a.nota_final IS NULL AND n.nivel = "1A" ;
+
+-- B
+SELECT a.apellido, a.nombre, a.nota_final FROM alumnos a
+INNER JOIN nivel n
+ON a.nivel_id = n.nivel_id
+WHERE a.nota_final >= 6 AND n.nivel = "4" ;
+
+
+-- C
+SELECT COUNT(legajo) FROM alumnos WHERE nota_final >= 6;
+
+-- D1
+SELECT nivel, COUNT(legajo) AS "Inscriptos" FROM alumnos a
+INNER JOIN nivel n
+ON a.nivel_id = n.nivel_id
+GROUP BY nivel; 
+
+-- D2
+SELECT nivel, COUNT(legajo) AS "Aprobados" FROM alumnos a
+INNER JOIN nivel n
+ON a.nivel_id = n.nivel_id
+WHERE nota_final >= 6 GROUP BY nivel;
+
+
+-- D3
+SELECT nivel, COUNT(legajo) AS "Desaprobados" FROM alumnos a
+INNER JOIN nivel n
+ON a.nivel_id = n.nivel_id
+WHERE nota_final < 6 GROUP BY nivel;
+
+-- D4
+SELECT nivel, COUNT(legajo) AS "Ausentes" FROM alumnos a
+INNER JOIN nivel n
+ON a.nivel_id = n.nivel_id
+WHERE nota_final IS NULL GROUP BY nivel;
+
+-- E
+SELECT i.nombre, i.apellido, i.email, a.nota_final FROM instructores i
+INNER JOIN alumnos a
+ON i.instructor_id = a.instructor_id
+WHERE a.nombre = "Humberto" AND a.apellido = "Pilsbury"; 
+
+-- F
+SELECT apellido, nombre FROM alumnos 
+WHERE apellido > 'M' AND apellido < 'Q' 
+AND nota_final IS NULL
+ORDER BY apellido; 
+
+-- G
+SELECT i.apellido, i.nombre, COUNT(a.legajo) as "Distinguidos" FROM instructores i
+INNER JOIN alumnos a
+ON i.instructor_id = a.instructor_id
+WHERE a.nota_final > 9
+GROUP BY i.apellido
+ORDER BY COUNT(a.legajo) DESC
+LIMIT 1; 
